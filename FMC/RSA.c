@@ -17,15 +17,15 @@ unsigned int eulerRSA(unsigned int n){
 	return (p1-1)*(p2-1);
 }
 
-int inv(int a,int b){//a=phi, b=e
-    int v[10000],aux,a1,a2,a3,i,flag,num=a;	//Flag diz se é negativo
-    for(i=0;b>0;i++){//Quocientes no array
-        v[i]=a/b;
-        aux=a;
-        a=b;
-        b=aux%b;
+int inv(int phi,int e){//a=phi, b=e
+    int v[10000],aux,a1,a2,a3,i,flag,num=phi;	//Flag diz se é negativo
+    for(i=0;e>0;i++){//Quocientes no array
+        v[i]=phi/e;
+        aux=phi;
+        phi=e;
+        e=aux%e;
     }
-    //Tem um i a mais aqui por isso o teste é inverso e eu diminuo 3
+    //O i é o número de quocientes-->
     //Número de linhas preenchidas para saber o sinal de a2
     if(i%2==0) flag=1;
     else flag=0;
