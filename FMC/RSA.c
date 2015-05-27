@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
-unsigned int eulerRSA(unsigned int n){
-	unsigned int i, r=sqrt(n)+1,p1,p2;
+long int totiente(long int n){
+	long int i, r=sqrt(n)+1,p1,p2;
 
 	if(n%2==0) p1=2;	//Se é par
 	else{
@@ -17,8 +17,10 @@ unsigned int eulerRSA(unsigned int n){
 	return (p1-1)*(p2-1);
 }
 
-int inv(int phi,int e){//a=phi, b=e
-    int v[10000],aux,a1,a2,a3,i,flag,num=phi;	//Flag diz se é negativo
+long int inverso(long int phi,long int e){//a=phi, b=e
+    long int v[10000],aux,a1,a2,a3,num=phi;
+    int i,flag;	//Flag diz se é negativo
+    
     for(i=0;e>0;i++){//Quocientes no array
         v[i]=phi/e;
         aux=phi;
@@ -30,7 +32,7 @@ int inv(int phi,int e){//a=phi, b=e
     if(i%2==0) flag=1;
     else flag=0;
 
-    i-=3;
+    i-=3;//Pulando o quociente não utilizado e o quociente da primeira linha do dispositivo
     a1=1; a2=v[i+1];
 
     for(;i>=0;i--){             //      |1
@@ -42,8 +44,8 @@ int inv(int phi,int e){//a=phi, b=e
     if(flag) return (a2*-1)+num;	//Se negativo
     return a2;
 }
-unsigned int descrip(unsigned int c,unsigned int d,unsigned int n){
-	int aux;
+long int descrip(long int c,long int d,long int n){
+	long int aux;
 	for(aux=c;d>1;d--){
 		c*=aux;
 		c=c%n;
@@ -52,16 +54,17 @@ unsigned int descrip(unsigned int c,unsigned int d,unsigned int n){
 }
 
 int main(void){
-    int num,n,e,c,i;
+    int num,i;
+    long int n,e,c;
     scanf("%d",&num);
     for(i=1;i<=num;i++){
-		scanf("%d %d %d",&n,&e,&c);
-		if(n<15||n>pow(10,8)||e<1||e>=n||c<1||c>=n){
+		scanf("%ld %ld %ld",&n,&e,&c);
+		if(n<15||e<1||e>=n||c<1||c>=n){
 			printf("Um dos números digitados está fora da faixa permitida!");
-			num++;
+			i--;
 		}
-		int mens=descrip(c,inv(eulerRSA(n),e),n);
-		printf("Caso %d: %c",i,mens);
+		long int mens=descrip(c,inverso(totiente(n),e),n);
+		printf("Caso %d: %c",i,(int)mens);
 	}
     return 0;
 }
