@@ -2,12 +2,14 @@
 #include <math.h>
 
 long int totiente(long int n){
-	long int i, r=sqrt(n)+1,p1,p2;
+	long int i; 
+	long int raiz=sqrt(n)+1
+	long int p1,p2; 	//Divisores
 
 	if(n%2==0) p1=2;	//Se é par
 	else{
-		for(i=3;i<r;i+=2){	//Teste até a raiz, já que pelo menos 1 deles tem de ser menor que a raiz
-			if(n%i==0){		//Poderia começar da raiz(o for)
+		for(i=3;i<raiz;i+=2){//Teste até a raiz já que 1 deles é menor que ela
+			if(n%i==0){
 				p1=i;
 				break;
 			}
@@ -17,7 +19,7 @@ long int totiente(long int n){
 	return (p1-1)*(p2-1);
 }
 
-long int inverso(long int phi,long int e){//a=phi, b=e
+long int inverso(long int phi,long int e){
     long int v[10000],aux,a1,a2,a3,num=phi;
     int i,flag;	//Flag diz se é negativo
     
@@ -27,7 +29,6 @@ long int inverso(long int phi,long int e){//a=phi, b=e
         phi=e;
         e=aux%e;
     }
-    //O i é o número de quocientes-->
     //Número de linhas preenchidas para saber o sinal de a2
     if(i%2==0) flag=1;
     else flag=0;
