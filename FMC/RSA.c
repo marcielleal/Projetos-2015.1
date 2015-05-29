@@ -3,7 +3,7 @@
 
 long int totiente(long int n){
 	long int i; 
-	long int raiz=sqrt(n)+1
+	long int raiz=sqrt(n)+1;
 	long int p1,p2; 	//Divisores
 
 	if(n%2==0) p1=2;	//Se é par
@@ -11,6 +11,7 @@ long int totiente(long int n){
 		for(i=3;i<raiz;i+=2){//Teste até a raiz já que 1 deles é menor que ela
 			if(n%i==0){
 				p1=i;
+				printf("EULANDO\n");
 				break;
 			}
 		}
@@ -28,6 +29,7 @@ long int inverso(long int phi,long int e){
         aux=phi;
         phi=e;
         e=aux%e;
+        printf("QUOCIENTANDO\n");
     }
     //Número de linhas preenchidas para saber o sinal de a2
     if(i%2==0) flag=1;
@@ -41,19 +43,41 @@ long int inverso(long int phi,long int e){
         aux=a2;                 //    a3|(a3*a2+a1)=a2
         a2=a3*a2+a1;            // a3=()|...
         a1=aux;
+        printf("ACHANDO\n");
     }
     if(flag) return (a2*-1)+num;	//Se negativo
     return a2;
 }
+
 long int descrip(long int c,long int d,long int n){
-	long int aux;
-	for(aux=c;d>1;d--){
+	int i,j=0,k;
+	long int vet[1000000],aux,aux2,x,r,aux4,aux3;
+	
+	INICIO: aux3=c;	
+	for(i=2,aux=c,aux2=d;d>1;d--,i++){
 		c*=aux;
-		c=c%n;
+		if (c>n){
+			x=aux2/i;
+			r=aux2%i;
+			c=c%n;
+			d=x;
+			if(r>0){
+				for(aux4=aux3;r>1;r--){
+					aux3*=aux4;
+					aux3=aux3%n;
+				}vet[j]=aux3;
+				j++;
+			}
+			goto INICIO;
+		}
+		
+	}
+	for(k=0;k<j;k++){
+		c*=vet[k];
+		c=c%n;	
 	}
 	return c;
 }
-
 int main(void){
     int num,i;
     long int n,e,c;
@@ -63,9 +87,9 @@ int main(void){
 		if(n<15||e<1||e>=n||c<1||c>=n){
 			printf("Um dos números digitados está fora da faixa permitida!");
 			i--;
-		}
-		long int mens=descrip(c,inverso(totiente(n),e),n);
-		printf("Caso %d: %c",i,(int)mens);
+		}long int phi=totiente(n);
+		long int mens=descrip(c,inverso(phi,e),n);
+		printf("Caso %d: %c\n",i,(int)mens);
 	}
     return 0;
 }
