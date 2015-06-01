@@ -52,7 +52,6 @@ long int descrip(long int c,long int d,long int n){
 	
 	INICIO: aux3=c;	
 	for(i=2,aux=c,aux2=d;d>1;d--,i++){
-		printf("%ld\n",c);
 		if ((c*=aux)>n){	//Se é maior
 			x=aux2/i;
 			r=aux2%i;
