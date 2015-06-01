@@ -55,8 +55,8 @@ long int descrip(long int c,long int d,long int n){
 	
 	INICIO: aux3=c;	
 	for(i=2,aux=c,aux2=d;d>1;d--,i++){
-		c*=aux;
-		if (c>n){
+		printf("%ld\n",c);
+		if ((c*=aux)>n){	//Se é maior
 			x=aux2/i;
 			r=aux2%i;
 			c=c%n;
@@ -65,18 +65,14 @@ long int descrip(long int c,long int d,long int n){
 				for(aux4=aux3;r>1;r--){
 					aux3*=aux4;
 					aux3=aux3%n;
-				}vet[j]=aux3;
-				j++;
-			}
-			goto INICIO;
+				}vet[j]=aux3; j++;
+			}goto INICIO;
 		}
-		
 	}
 	for(k=0;k<j;k++){
 		c*=vet[k];
 		c=c%n;	
-	}
-	return c;
+	}return c;
 }
 int main(void){
     int num,i;
