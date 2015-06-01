@@ -11,7 +11,6 @@ long int totiente(long int n){
 		for(i=3;i<raiz;i+=2){//Teste até a raiz já que 1 deles é menor que ela
 			if(n%i==0){
 				p1=i;
-				printf("EULANDO\n");
 				break;
 			}
 		}
@@ -29,7 +28,6 @@ long int inverso(long int phi,long int e){
         aux=phi;
         phi=e;
         e=aux%e;
-        printf("QUOCIENTANDO\n");
     }
     //Número de linhas preenchidas para saber o sinal de a2
     if(i%2==0) flag=1;
@@ -43,7 +41,6 @@ long int inverso(long int phi,long int e){
         aux=a2;                 //    a3|(a3*a2+a1)=a2
         a2=a3*a2+a1;            // a3=()|...
         a1=aux;
-        printf("ACHANDO\n");
     }
     if(flag) return (a2*-1)+num;	//Se negativo
     return a2;
