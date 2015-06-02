@@ -80,7 +80,7 @@ int main(void){
 			printf("Um dos números digitados está fora da faixa permitida!");
 			i--;
 		}long int phi=totiente(n);
-		long int mens=descrip(c,inverso(phi,e),n);
+		long int mens=descrip(c,inverso(phi,e),n)%255; //Deixá-lo na faixa do ASCII
 		printf("Caso %d: %c\n",i,(int)mens);
 	}
     return 0;
