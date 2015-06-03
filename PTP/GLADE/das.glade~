@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.16.1 -->
+<interface>
+  <requires lib="gtk+" version="3.10"/>
+  <object class="GtkWindow" id="calculadora">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Calculadora</property>
+    <property name="default_width">250</property>
+    <property name="default_height">250</property>
+    <signal name="destroy" handler="gtk_main_quit" swapped="no"/>
+    <child>
+      <object class="GtkFixed" id="fixed1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <child>
+          <object class="GtkEntry" id="entry1">
+            <property name="width_request">123</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">out</property>
+            <property name="progress_pulse_step">0</property>
+            <property name="input_purpose">digits</property>
+          </object>
+          <packing>
+            <property name="x">36</property>
+            <property name="y">21</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="entry2">
+            <property name="width_request">144</property>
+            <property name="height_request">31</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="width_chars">0</property>
+            <property name="shadow_type">out</property>
+            <property name="progress_pulse_step">0</property>
+            <property name="input_purpose">digits</property>
+          </object>
+          <packing>
+            <property name="x">220</property>
+            <property name="y">21</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="btMais">
+            <property name="label" translatable="yes">button</property>
+            <property name="width_request">130</property>
+            <property name="height_request">25</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="margin_bottom">1</property>
+            <property name="action_name">__Somar</property>
+            <property name="xalign">0.50999999046325684</property>
+            <property name="yalign">0.50999999046325684</property>
+            <signal name="clicked" handler="Adicionar" swapped="no"/>
+          </object>
+          <packing>
+            <property name="x">125</property>
+            <property name="y">90</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button2">
+            <property name="label" translatable="yes">button</property>
+            <property name="width_request">130</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="x">125</property>
+            <property name="y">120</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button3">
+            <property name="label" translatable="yes">button</property>
+            <property name="width_request">131</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="x">125</property>
+            <property name="y">150</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button4">
+            <property name="label" translatable="yes">button</property>
+            <property name="width_request">131</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+          </object>
+          <packing>
+            <property name="x">125</property>
+            <property name="y">180</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="button5">
+            <property name="label" translatable="yes">button</property>
+            <property name="width_request">131</property>
+            <property name="height_request">29</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="relief">half</property>
+          </object>
+          <packing>
+            <property name="x">125</property>
+            <property name="y">210</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkSizeGroup" id="sizegroup1">
+    <property name="mode">both</property>
+    <widgets>
+      <widget name="btMais"/>
+      <widget name="button2"/>
+      <widget name="button3"/>
+      <widget name="button4"/>
+      <widget name="button5"/>
+    </widgets>
+  </object>
+  <object class="GtkSizeGroup" id="sizegroup1">
+    <property name="mode">both</property>
+    <widgets>
+      <widget name="btMais"/>
+      <widget name="button2"/>
+      <widget name="button3"/>
+      <widget name="button4"/>
+      <widget name="button5"/>
+    </widgets>
+  </object>
+</interface>
