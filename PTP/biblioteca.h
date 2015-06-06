@@ -1,43 +1,61 @@
 #ifndef BIBLIOTECA_H
 #define BIBLIOTECA_H
+#include <gtk/gtk.h>
 
 typedef struct{
-	int codigo;
+	GSList *windows;
+        /* etc... whatever application vars you need */
+} MyApp;
+
+typedef struct{
 	char nome[20];
-	float preco;
+	int codigo;
 	int estoque;
+	float preco;
 }Produto;
 
-/* Retorna -1 caso tenha conseguido comprar ou um inteiro positivo caso não tenha.
- * Este indica a quantidade possível de produtos que podem ser comprados com o saldo
- */
-int compra(float *saldo, Produto *produto,int quant){
-	float valor= (*produto).preco*quant;
-	if((*saldo>=valor)){
-		(*saldo)-=valor;
-		(*produto).estoque+=quant;
-		return -1;
-	}else{
-		for(;quant>0;quant--,valor-=(*produto).preco){
-			if((*saldo>=valor)) return quant;
-		}
-	}return 0;
-}
 
-/* Retorna -1 caso tenha vendido com sucesso ou um inteiro caso não tenha.
- * Este indica o estoque atual do produto
- */
-int venda(float *saldo,Produto *produto,int quant){
-	if((*produto).estoque>=quant){
-		(*produto).estoque-=quant;
-		*saldo+=(quant*((*produto).preco));
-		return -1;
-	}return produto->estoque;
-}
+/*----------I-Interface-------------*/
+void cria_dialog(GtkWidget *window,gchar *string);
 
-/* Retorna o estoque do produto */
-int consulta_estoque(Produto *produto){
-	return produto->estoque;
-}
+void AbrirW (GtkWidget *widget, MyApp *app);
+void MenuP (GtkWidget *widget, MyApp *app);
+void Abrir(GtkWidget *widget);
+void Salvar(GtkWidget *widget);
+void MenuO (GtkWidget *widget, MyApp *app);
+void Icompra (GtkWidget *widget, MyApp *app);
+void Ivenda (GtkWidget *widget, MyApp *app);
+void Iconsulta (GtkWidget *widget, MyApp *app);
 
+
+/*----------F-Interface-------------*/
+
+
+/*------------I-Apoio-----------------*/
+// Pega o texto e armazena em x
+void get_saldo(GtkWidget *widget, GtkWidget *entry);
+
+void get_qtd(GtkWidget *widget, GtkWidget *entry);
+void get_qtd_v(GtkWidget *widget, GtkWidget *entry);
+void get_cod(GtkWidget *widget, GtkWidget *entry);
+void get_cod_v(GtkWidget *widget, GtkWidget *entry);
+
+// Destroi o pai de widget 
+void destroy(GtkWidget *widget,gpointer *p);
+
+void get_opcao(GtkWidget *widget, GtkComboBoxText *combo);
+void get_opcao_v(GtkWidget *widget, GtkComboBoxText *combo);
+
+void povoar_combo(GtkComboBoxText *combo);
+
+/*------------F-Apoio-----------------*/
+
+
+/*-------I-Parte Funcional-------------*/
+int compra(float *saldo, Produto *produto,int quant);
+int venda(float *saldo, Produto *produto,int quant);
+int consulta_estoque(Produto *produto);
+int grava_arquivo(Produto *produto,int tamanho,char *nome);
+
+/*-------F-Parte Funcional-------------*/
 #endif
