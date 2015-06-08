@@ -48,7 +48,7 @@
                 <property name="can_focus">False</property>
                 <property name="halign">start</property>
                 <property name="valign">center</property>
-                <property name="label" translatable="yes">Por código:</property>
+                <property name="label" translatable="yes">Saldo:</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -130,6 +130,8 @@
     <property name="can_focus">False</property>
     <property name="halign">center</property>
     <property name="valign">center</property>
+    <property name="window_position">center</property>
+    <property name="gravity">center</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
@@ -184,6 +186,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="margin_left">15</property>
               </object>
               <packing>
@@ -242,6 +246,7 @@
               <object class="GtkComboBoxText" id="comboboxtext3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="valign">center</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -344,6 +349,8 @@
     <property name="halign">center</property>
     <property name="valign">center</property>
     <property name="resizable">False</property>
+    <property name="window_position">center</property>
+    <property name="gravity">center</property>
     <child>
       <object class="GtkBox" id="box10">
         <property name="visible">True</property>
@@ -396,6 +403,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="margin_left">28</property>
               </object>
               <packing>
@@ -441,6 +450,7 @@
                 <property name="height_request">29</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="valign">center</property>
                 <property name="label" translatable="yes">Por nome:</property>
               </object>
               <packing>
@@ -454,6 +464,7 @@
               <object class="GtkComboBoxText" id="comboboxtext1">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="valign">center</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>
@@ -768,6 +779,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="margin_left">15</property>
                 <property name="margin_bottom">10</property>
               </object>
@@ -784,6 +797,8 @@
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="margin_left">15</property>
               </object>
               <packing>
@@ -797,6 +812,8 @@
               <object class="GtkEntry" id="entry2">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
                 <property name="margin_bottom">10</property>
                 <property name="input_purpose">digits</property>
               </object>
@@ -842,6 +859,7 @@
               <object class="GtkComboBoxText" id="comboboxtext2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="valign">center</property>
               </object>
               <packing>
                 <property name="left_attach">1</property>

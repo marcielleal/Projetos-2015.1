@@ -1,5 +1,6 @@
 #include "biblioteca.h"
 
+//sem app 54
 extern float saldo;
 extern Produto produtos[300];
 void cria_dialog(GtkWidget *window,char *string){
@@ -50,8 +51,11 @@ void Abrir(GtkWidget *widget){
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 		filename = gtk_file_chooser_get_filename (chooser);
 		if(abre_arquivo(produtos,filename)) printf("ALTERA ISSO AKI MULEKE");
+		g_free(filename);
+		MenuO(NULL,NULL);		//sem app
 	}
-
+	
+	gtk_widget_destroy (GTK_WIDGET(parent));
 	gtk_widget_destroy (dialog);
 }
 void Salvar(GtkWidget *widget){
@@ -74,6 +78,7 @@ void Salvar(GtkWidget *widget){
 		char *filename;
 		filename = gtk_file_chooser_get_filename (chooser);
 		grava_arquivo(produtos,300,filename);
+		g_free(filename);
 	}
 	gtk_widget_destroy (dialog);
 }
@@ -159,7 +164,6 @@ void Icompra (GtkWidget *widget, MyApp *app){
 	gtk_widget_show_all (window);
 }
 void Ivenda (GtkWidget *widget, MyApp *app){
-int i;
 	/* Criando construtor */
 	GtkBuilder *builder;
 	builder=gtk_builder_new();
@@ -191,4 +195,28 @@ int i;
 	gtk_widget_show_all (window);
 }
 void Iconsulta (GtkWidget *widget, MyApp *app){
+	GtkBuilder *builder;
+	builder=gtk_builder_new();
+	gtk_builder_add_from_file(builder, "test.glade",NULL);
+	
+	GtkWidget *window = GTK_WIDGET (gtk_builder_get_object(builder,"Consultar"));
+	
+	GtkWidget *buttonC = GTK_WIDGET(gtk_builder_get_object(builder,"button15"));
+	GtkWidget *buttonN = GTK_WIDGET(gtk_builder_get_object(builder,"button16"));
+	GtkWidget *buttonV = GTK_WIDGET(gtk_builder_get_object(builder,"button17"));
+	
+	GtkWidget *entryC = GTK_WIDGET(gtk_builder_get_object(builder,"entry4"));
+	
+	GtkComboBoxText *combo = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(builder,"comboboxtext1"));
+	povoar_combo(combo);
+	
+	/* Conectando Sinais */
+	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(MenuO), app);
+	g_signal_connect (G_OBJECT(buttonC), "clicked", G_CALLBACK(consulta_cod), entryC);
+	g_signal_connect (G_OBJECT(buttonN), "clicked", G_CALLBACK(consulta_nome), combo);
+	
+	if(widget!=NULL){
+		destroy(widget,NULL);
+	}	
+	gtk_widget_show_all (window);
 }

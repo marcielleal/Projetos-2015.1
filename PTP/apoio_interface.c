@@ -3,6 +3,56 @@
 extern float saldo;
 extern Produto produtos[300];
 int prod,qtd,cod;
+/*na procura do cod pode nao achá-lo */
+
+void consulta_cod(GtkWidget *widget, GtkWidget *entry){
+	char string[200],aux[50];
+	int i;
+	sscanf(gtk_entry_get_text(GTK_ENTRY(entry)),"%i",&cod);
+	for(i=0;i<300;i++){
+		if(cod==(produtos+i)->codigo) break;
+	}
+	/* Ver essa parte */ /* Descobrir pai */
+	GdkWindow *gtk_window = gtk_widget_get_parent_window(widget);
+	GtkWidget *parent = NULL;
+	gdk_window_get_user_data(gtk_window, (gpointer *)&parent);
+	/**/
+	if(i<300||i>=300){
+		strcpy(string,"Existem ");
+		sprintf(aux,"%d",(produtos+i)->estoque);
+		strcat(string,aux);
+		strcat(string," unidades do produto ");
+		strcat(string,(produtos+i)->nome);
+		strcat(string," no estoque!");
+	}else{
+		strcpy(string,"Não existe produto correspondente a esse código!");	
+	}
+	cria_dialog(parent,string);
+}
+
+void consulta_nome(GtkWidget *widget, GtkComboBoxText *combo){
+	int i;
+	gchar string[200],aux[100];
+	strcpy(aux,gtk_combo_box_text_get_active_text(combo));
+
+	for(i=0;i<300;i++){
+		if(strcmp(aux,(produtos+i)->nome)==0) break;
+	}
+	/* Ver essa parte */ /* Descobrir pai */
+	GdkWindow *gtk_window = gtk_widget_get_parent_window(widget);
+	GtkWidget *parent = NULL;
+	gdk_window_get_user_data(gtk_window, (gpointer *)&parent);
+	/**/
+
+	int a=consulta_estoque((produtos+i));
+	strcpy(string,"Existem ");
+	sprintf(aux,"%d",a);
+	strcat(string,aux);
+	strcat(string," unidades do produto ");
+	strcat(string,(produtos+i)->nome);
+	strcat(string," no estoque!");	
+}
+
 
 void get_qtd_v(GtkWidget *widget, GtkWidget *entry){
 	sscanf(gtk_entry_get_text(GTK_ENTRY(entry)),"%i",&qtd);
@@ -44,7 +94,7 @@ void get_cod_v(GtkWidget *widget, GtkWidget *entry){
 }
 
 void get_opcao_v(GtkWidget *widget, GtkComboBoxText *combo){
-	int i=300;
+	int i;
 	gchar string[200],aux[100];
 	strcpy(aux,gtk_combo_box_text_get_active_text(combo));
 

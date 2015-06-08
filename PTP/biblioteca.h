@@ -46,6 +46,9 @@ void destroy(GtkWidget *widget,gpointer *p);
 void get_opcao(GtkWidget *widget, GtkComboBoxText *combo);
 void get_opcao_v(GtkWidget *widget, GtkComboBoxText *combo);
 
+void consulta_cod(GtkWidget *widget, GtkWidget *entry);
+void consulta_nome(GtkWidget *widget, GtkComboBoxText *combo);
+
 void povoar_combo(GtkComboBoxText *combo);
 
 /*------------F-Apoio-----------------*/

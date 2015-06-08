@@ -44,7 +44,6 @@ void on_add_button_clicked (GtkWidget *widget, MyApp *app){
 	
 	g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (on_add_button_clicked), app);
 								   
-	gtk_widget_destroy(win);
 	gtk_widget_show_all (window);     
 }
 
