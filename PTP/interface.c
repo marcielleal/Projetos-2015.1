@@ -1,3 +1,4 @@
+/* Todas as funções que criam interface a partir do arquivo xml test.glade */
 #include "biblioteca.h"
 
 extern float saldo;
@@ -62,18 +63,15 @@ void Salvar(GtkWidget *widget){
 	GdkWindow *gtk_window = gtk_widget_get_parent_window(widget);
 	gdk_window_get_user_data(gtk_window, (gpointer *)&dad);
 	GtkWindow *parent=GTK_WINDOW(dad);
-	
 	GtkWidget *dialog;
-	GtkFileChooser *chooser;
 	GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
 	gint res;
 
 	dialog = gtk_file_chooser_dialog_new ("Save File",parent,action,("_Cancel"),GTK_RESPONSE_CANCEL,("_Save"),GTK_RESPONSE_ACCEPT,NULL);
-	chooser = GTK_FILE_CHOOSER (dialog);
+	GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 	
 	res = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (res == GTK_RESPONSE_ACCEPT){
-		gtk_file_chooser_set_current_name (chooser,("Untitled document"));
 		char *filename;
 		filename = gtk_file_chooser_get_filename (chooser);
 		if(grava_arquivo(&saldo,produtos,numero,filename)) cria_dialog(dad,"Ocorreu um erro na abertura do arquivo");

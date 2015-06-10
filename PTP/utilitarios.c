@@ -1,3 +1,4 @@
+/* Funções que não tem ligação direta com a interface gráfica */
 #include <stdlib.h>
 #include "biblioteca.h"
 

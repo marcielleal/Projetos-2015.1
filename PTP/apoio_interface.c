@@ -1,3 +1,4 @@
+/* As funções chamadas por eventos da interface */
 #include "biblioteca.h"
 #include <string.h>
 extern float saldo;
