@@ -1,18 +1,19 @@
 #include "biblioteca.h"
 
-//sem app 54
 extern float saldo;
 extern Produto produtos[300];
+extern int numero,flag,flag2;
+
 void cria_dialog(GtkWidget *window,char *string){
 	GtkWidget *dialog;
 	dialog = gtk_message_dialog_new(GTK_WINDOW(window),GTK_DIALOG_DESTROY_WITH_PARENT,GTK_MESSAGE_INFO,GTK_BUTTONS_OK,"%s",string);
   
-	gtk_window_set_title(GTK_WINDOW(dialog), "informação");
+	gtk_window_set_title(GTK_WINDOW(dialog), "Atenção");
 	gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
 }
 
-void AbrirW (GtkWidget *widget, MyApp *app){
+void Saldo (GtkWidget *widget){
 	/* Criando construtor */
 	GtkBuilder *builder;
 	builder=gtk_builder_new();
@@ -24,19 +25,19 @@ void AbrirW (GtkWidget *widget, MyApp *app){
 	GtkWidget *entry= GTK_WIDGET(gtk_builder_get_object(builder,"entry1"));
 	
 	/* Conectando Sinais */
-	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (get_saldo), entry);
-	g_signal_connect (G_OBJECT (buttonS), "clicked", G_CALLBACK (MenuP), app);
 	
-	if(widget!=NULL){
-		destroy(widget,NULL);
-	}	
+	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (i_flag2), NULL);
+	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (ler_banco), NULL);
+	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (get_saldo), entry);
+	g_signal_connect (G_OBJECT (buttonS), "clicked", G_CALLBACK (destroy), NULL);
+
 	gtk_widget_show_all (window);
 }
 void Abrir(GtkWidget *widget){
-	/* Quem eh a janela pai? */
+	GtkWidget *dad = NULL;
 	GdkWindow *gtk_window = gtk_widget_get_parent_window(widget);
-	GtkWindow *parent = NULL;
-	gdk_window_get_user_data(gtk_window, (gpointer *)&parent);
+	gdk_window_get_user_data(gtk_window, (gpointer *)&dad);
+	GtkWindow *parent=GTK_WINDOW(dad);
 	
 	/* Criando */
 	GtkWidget *dialog;
@@ -50,19 +51,17 @@ void Abrir(GtkWidget *widget){
 		char *filename;
 		GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
 		filename = gtk_file_chooser_get_filename (chooser);
-		if(abre_arquivo(produtos,filename)) printf("ALTERA ISSO AKI MULEKE");
+		if(abre_arquivo(&saldo,produtos,filename)) cria_dialog(dad,"Ocorreu um erro na abertura do arquivo");
+		else flag2=1;
 		g_free(filename);
-		MenuO(NULL,NULL);		//sem app
 	}
-	
-	gtk_widget_destroy (GTK_WIDGET(parent));
 	gtk_widget_destroy (dialog);
 }
 void Salvar(GtkWidget *widget){
-	/* Quem eh a janela pai? */
+	GtkWidget *dad = NULL;
 	GdkWindow *gtk_window = gtk_widget_get_parent_window(widget);
-	GtkWindow *parent = NULL;
-	gdk_window_get_user_data(gtk_window, (gpointer *)&parent);
+	gdk_window_get_user_data(gtk_window, (gpointer *)&dad);
+	GtkWindow *parent=GTK_WINDOW(dad);
 	
 	GtkWidget *dialog;
 	GtkFileChooser *chooser;
@@ -77,62 +76,70 @@ void Salvar(GtkWidget *widget){
 		gtk_file_chooser_set_current_name (chooser,("Untitled document"));
 		char *filename;
 		filename = gtk_file_chooser_get_filename (chooser);
-		grava_arquivo(produtos,300,filename);
+		if(grava_arquivo(&saldo,produtos,numero,filename)) cria_dialog(dad,"Ocorreu um erro na abertura do arquivo");
 		g_free(filename);
 	}
 	gtk_widget_destroy (dialog);
 }
 
-void MenuP (GtkWidget *widget, MyApp *app){
+void MenuP (GtkWidget *widget){
 	/* Criando construtor */
 	GtkBuilder *builder;
 	builder=gtk_builder_new();
 	gtk_builder_add_from_file(builder, "test.glade",NULL);
+	GtkWidget *window,*buttonC,*buttonS,*buttonA,*buttonI,*buttonM;
 	
-	GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder,"MenuP"));
-	GtkWidget *buttonC = GTK_WIDGET(gtk_builder_get_object(builder,"button1"));
-	GtkWidget *buttonS = GTK_WIDGET(gtk_builder_get_object(builder,"button7"));
-	GtkWidget *buttonA = GTK_WIDGET(gtk_builder_get_object(builder,"button5"));
-	GtkWidget *buttonI = GTK_WIDGET(gtk_builder_get_object(builder,"Sair1"));
-	
-	/* Conectando os sinais */
-	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (AbrirW), app);
-	g_signal_connect (G_OBJECT (buttonS), "clicked", G_CALLBACK (Salvar), app);
-	g_signal_connect (G_OBJECT (buttonA), "clicked", G_CALLBACK (Abrir), app);
-	g_signal_connect (G_OBJECT (buttonI), "clicked", G_CALLBACK (gtk_main_quit), app);
-	
-	
-	if(widget!=NULL){
-		destroy(widget,NULL);
-	}	
+	window = GTK_WIDGET(gtk_builder_get_object(builder,"MenuP"));
+	buttonC = GTK_WIDGET(gtk_builder_get_object(builder,"button1"));
+	buttonS = GTK_WIDGET(gtk_builder_get_object(builder,"button7"));
+	buttonA = GTK_WIDGET(gtk_builder_get_object(builder,"button5"));
+	buttonI = GTK_WIDGET(gtk_builder_get_object(builder,"Sair1"));
+	buttonM = GTK_WIDGET(gtk_builder_get_object(builder,"button18"));
+		
+	g_signal_connect (G_OBJECT (buttonM), "clicked", G_CALLBACK (MenuO),NULL);
+	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (Saldo), NULL);
+	g_signal_connect (G_OBJECT (buttonS), "clicked", G_CALLBACK (Salvar), NULL);
+	g_signal_connect (G_OBJECT (buttonA), "clicked", G_CALLBACK (Abrir), NULL);
+	g_signal_connect (G_OBJECT (buttonI), "clicked", G_CALLBACK (gtk_main_quit), NULL);
+	g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (d_verifica), NULL);
+
 	gtk_widget_show_all (window);
 }
 
-void MenuO (GtkWidget *widget, MyApp *app){
-	/* Criando construtor */
-	GtkBuilder *builder;
-	builder=gtk_builder_new();
-	gtk_builder_add_from_file(builder, "test.glade",NULL);
-	
-	GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder,"MenuO"));
-	GtkWidget *buttonC = GTK_WIDGET(gtk_builder_get_object(builder,"button2"));
-	GtkWidget *buttonV = GTK_WIDGET(gtk_builder_get_object(builder,"button3"));
-	GtkWidget *buttonE = GTK_WIDGET(gtk_builder_get_object(builder,"button4"));
-	GtkWidget *buttonO = GTK_WIDGET(gtk_builder_get_object(builder,"Voltar"));
-	
-	/* Conectando os sinais */
-	g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (Icompra), app);
-	g_signal_connect (G_OBJECT (buttonV), "clicked", G_CALLBACK (Ivenda), app);
-	g_signal_connect (G_OBJECT (buttonE), "clicked", G_CALLBACK (Iconsulta), app);
-	g_signal_connect (G_OBJECT (buttonO), "clicked", G_CALLBACK (MenuP), app);
-	
-	if(widget!=NULL){
-		destroy(widget,NULL);
-	}	
-	gtk_widget_show_all (window);
+void MenuO (GtkWidget *widget){
+	GtkWidget *parent = NULL;
+	GdkWindow *gtk_window = gtk_widget_get_parent_window(widget);
+	gdk_window_get_user_data(gtk_window, (gpointer *)&parent);
+	if(flag2==0) cria_dialog(parent,"Carregue o estado da loja ou abra o caixa!");
+	else{
+		i_flag(NULL);
+		/* Criando construtor */
+		GtkBuilder *builder;
+		builder=gtk_builder_new();
+		gtk_builder_add_from_file(builder, "test.glade",NULL);
+		
+		GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder,"MenuO"));
+		GtkWidget *buttonC = GTK_WIDGET(gtk_builder_get_object(builder,"button2"));
+		GtkWidget *buttonV = GTK_WIDGET(gtk_builder_get_object(builder,"button3"));
+		GtkWidget *buttonE = GTK_WIDGET(gtk_builder_get_object(builder,"button4"));
+		GtkWidget *buttonO = GTK_WIDGET(gtk_builder_get_object(builder,"Voltar"));
+		
+		/* Conectando os sinais */
+		g_signal_connect (G_OBJECT (buttonC), "clicked", G_CALLBACK (Icompra), NULL);
+		g_signal_connect (G_OBJECT (buttonE), "clicked", G_CALLBACK (Iconsulta), NULL);
+		g_signal_connect (G_OBJECT (buttonV), "clicked", G_CALLBACK (Ivenda), NULL);
+		g_signal_connect (G_OBJECT (buttonO), "clicked", G_CALLBACK (destroy), NULL);
+		g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (i_flag), NULL);
+		g_signal_connect (G_OBJECT (window), "destroy", G_CALLBACK (MenuP), NULL);
+		
+		if(widget!=NULL){
+			destroy(widget,NULL);
+		}	
+		gtk_widget_show_all (window);
+	}
 }
 
-void Icompra (GtkWidget *widget, MyApp *app){
+void Icompra (GtkWidget *widget){
 	/* Criando construtor */
 	GtkBuilder *builder;
 	builder=gtk_builder_new();
@@ -152,18 +159,15 @@ void Icompra (GtkWidget *widget, MyApp *app){
 	povoar_combo(combo);
 	
 	/* Conectando Sinais */
-	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(MenuO), app);
+	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(destroy), NULL);
 	g_signal_connect (G_OBJECT(buttonC), "clicked", G_CALLBACK(get_qtd), entryq1);
 	g_signal_connect (G_OBJECT(buttonC), "clicked", G_CALLBACK(get_cod), entryC);
 	g_signal_connect (G_OBJECT(buttonN), "clicked", G_CALLBACK(get_qtd), entryq2);
 	g_signal_connect (G_OBJECT(buttonN), "clicked", G_CALLBACK(get_opcao), combo);
 	
-	if(widget!=NULL){
-		destroy(widget,NULL);
-	}	
 	gtk_widget_show_all (window);
 }
-void Ivenda (GtkWidget *widget, MyApp *app){
+void Ivenda (GtkWidget *widget){
 	/* Criando construtor */
 	GtkBuilder *builder;
 	builder=gtk_builder_new();
@@ -183,18 +187,15 @@ void Ivenda (GtkWidget *widget, MyApp *app){
 	povoar_combo(combo);
 	
 	/* Conectando Sinais */
-	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(MenuO), app);
+	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(destroy), NULL);
 	g_signal_connect (G_OBJECT(buttonC), "clicked", G_CALLBACK(get_qtd_v), entryq1);
 	g_signal_connect (G_OBJECT(buttonC), "clicked", G_CALLBACK(get_cod_v), entryC);
 	g_signal_connect (G_OBJECT(buttonN), "clicked", G_CALLBACK(get_qtd_v), entryq2);
 	g_signal_connect (G_OBJECT(buttonN), "clicked", G_CALLBACK(get_opcao_v), combo);
 	
-	if(widget!=NULL){
-		destroy(widget,NULL);
-	}	
 	gtk_widget_show_all (window);
 }
-void Iconsulta (GtkWidget *widget, MyApp *app){
+void Iconsulta (GtkWidget *widget){
 	GtkBuilder *builder;
 	builder=gtk_builder_new();
 	gtk_builder_add_from_file(builder, "test.glade",NULL);
@@ -211,12 +212,9 @@ void Iconsulta (GtkWidget *widget, MyApp *app){
 	povoar_combo(combo);
 	
 	/* Conectando Sinais */
-	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(MenuO), app);
+	g_signal_connect (G_OBJECT(buttonV), "clicked", G_CALLBACK(destroy), NULL);
 	g_signal_connect (G_OBJECT(buttonC), "clicked", G_CALLBACK(consulta_cod), entryC);
 	g_signal_connect (G_OBJECT(buttonN), "clicked", G_CALLBACK(consulta_nome), combo);
 	
-	if(widget!=NULL){
-		destroy(widget,NULL);
-	}	
 	gtk_widget_show_all (window);
 }

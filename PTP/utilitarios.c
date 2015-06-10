@@ -2,7 +2,7 @@
 #include "biblioteca.h"
 
 extern float saldo;
-extern Produto produtos[300];
+extern numero;
 
 /* Retorna -1 caso tenha conseguido comprar ou um inteiro positivo caso não tenha.
  * Este indica a quantidade possível de produtos que podem ser comprados com o saldo
@@ -31,12 +31,7 @@ int venda(float *saldo,Produto *produto,int quant){
 	}return produto->estoque;
 }
 
-/* Retorna o estoque do produto */
-int consulta_estoque(Produto *produto){
-	return produto->estoque;
-}
-
-int grava_arquivo(Produto *produto,int tamanho,char *nome){
+int grava_arquivo(float *saldo,Produto *produto,int tamanho,char *nome){
 	FILE *p;
 	char s [30];
 	int i;
@@ -45,12 +40,12 @@ int grava_arquivo(Produto *produto,int tamanho,char *nome){
 		return 1;
 	}
 	/* Adicionando o saldo na primeira linha */
-	sprintf(s,"%f",saldo);
+	sprintf(s,"%f",*saldo);
 	strcat(s,"\n");
 	fputs(s,p);
 	
 	/* Adicionando nome, codigo, estoque e preco */
-	for(i=0;i<tamanho;i++){//Poderia gravar direto
+	for(i=0;i<numero;i++){//Poderia gravar direto
 		char string[200],aux[50];
 
 		strcpy(string,(produto+i)->nome);
@@ -78,7 +73,7 @@ int grava_arquivo(Produto *produto,int tamanho,char *nome){
 	return 0;
 }
 
-int abre_arquivo(Produto *produto,char *nome){
+int abre_arquivo(float *saldo,Produto *produto,char *nome){
 	FILE *p;
 	int i;
 	char s[30];
@@ -88,12 +83,13 @@ int abre_arquivo(Produto *produto,char *nome){
 	}
 	
 	fgets(s,30,p);
-	sscanf(s,"%f",&saldo);
+	sscanf(s,"%f",saldo);
 	
-	for(i=0;i<300&&!(feof(p));i++){
-		char string[200],aux[50];
+	for(i=0;i<numero&&!(feof(p));i++){
+		char string[200];
 
 		fgets(string,200,p);
+		string[strlen(string)-1]='\0';	//Retira o \n
 		strcpy((produto+i)->nome,string);
 
 		fgets(string,200,p);
